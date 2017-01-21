@@ -1,0 +1,40 @@
+const gulp = require('gulp');
+const ts = require('gulp-typescript');
+const gutil = require('gulp-util');
+const uglify = require('gulp-uglify');
+const mocha = require('gulp-mocha');
+const sourcemaps = require('gulp-sourcemaps');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const tsify = require('tsify');
+const tsProject = ts.createProject('tsconfig.json');
+
+gulp.task('build-browser', function () {
+  return browserify()
+    .add('./lib/index.ts')
+    .plugin(tsify, { noImplicitAny: true })
+    .bundle()
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(uglify())
+    .on('error', gutil.log)
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/browser/'));
+});
+
+gulp.task('build-node', function () {
+  return gulp.src('lib/**/*.ts')
+    .pipe(tsProject())
+    .pipe(gulp.dest('./dist/node/'));
+});
+
+gulp.task('build', ['build-browser', 'build-node']);
+
+gulp.task('test', ['build-node'], function () {
+  return gulp.src('test/**/*.js', { read: false })
+    .pipe(mocha({ reporter: 'list' }));
+});
+
+gulp.task('default', ['build', 'test']);
