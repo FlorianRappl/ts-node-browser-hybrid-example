@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
-const gutil = require('gulp-util');
 const uglify = require('gulp-uglify');
 const mocha = require('gulp-mocha');
 const rename = require('gulp-rename');
@@ -9,13 +8,10 @@ const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const browserify = require('browserify');
 const tsify = require('tsify');
-const tsProject = ts.createProject('tsconfig.json');
-
-const opts = {
-  standalone: 'app'
-};
 
 gulp.task('build-browser', function () {
+  const opts = { standalone: 'app' };
+
   return browserify(opts)
     .add('./lib/index.ts')
     .plugin(tsify)
@@ -31,6 +27,8 @@ gulp.task('build-browser', function () {
 });
 
 gulp.task('build-node', function () {
+  const tsProject = ts.createProject('tsconfig.json');
+
   return gulp.src('lib/**/*.ts')
     .pipe(tsProject())
     .pipe(gulp.dest('./dist/node/'));

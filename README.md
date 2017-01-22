@@ -45,7 +45,26 @@ By default Gulp runs `build` with a subsequent `test` execution.
 
 ## Examples
 
-The constructed example library uses 3 files and the `http` module.
+The constructed example library uses 3 files and the `http` module. The root file (*index.ts*) exports its (pseudo) API to showcase how to deal with such a hybrid approach.
+
+In the browser space the minimum way to see how this example can be used is as follows.
+
+```html
+<!DOCTYPE HTML>
+<script src="dist/browser/app.js"></script>
+<script>app();</script>
+```
+
+Please note that the request may fail due to CORS restrictions (however, the important part is that a request is being performed). The name (`app`) can be changed in the *gulpfile.js*.
+
+For Node.js we have the usual straight forward approach:
+
+```js
+const app = require('./dist/node/index.js');
+app();
+```
+
+Similarly, if the library would be a real dependency (not the same directory) a simple `require('ts-node-browser-hybrid-example')` resolution would do the job. Here the name needs to replaced with the name of the library, of course.
 
 ## License
 
