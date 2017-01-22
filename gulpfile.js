@@ -3,6 +3,7 @@ const ts = require('gulp-typescript');
 const gutil = require('gulp-util');
 const uglify = require('gulp-uglify');
 const mocha = require('gulp-mocha');
+const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
@@ -13,13 +14,14 @@ const tsProject = ts.createProject('tsconfig.json');
 gulp.task('build-browser', function () {
   return browserify()
     .add('./lib/index.ts')
-    .plugin(tsify, { noImplicitAny: true })
+    .plugin(tsify)
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(gulp.dest('./dist/browser/'))
     .pipe(uglify())
-    .on('error', gutil.log)
+    .pipe(rename({ extname: '.min.js' }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./dist/browser/'));
 });

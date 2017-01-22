@@ -2,9 +2,13 @@
   "name": "ts-ify-hybrid-example",
   "version": "1.0.0",
   "description": "Example to feature a TypeScript powered hybrid Node.js / Browser application using Browserify and Gulp.",
-  "main": "main.ts",
+  "main": "dist/node/index.js",
+  "engineStrict": true,
+  "engines": {
+    "node": ">= 6.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "keywords": [
     "browserify",
@@ -16,13 +20,21 @@
     "node",
     "browser"
   ],
-  "author": "Florian Rappl",
+  "author": "Florian Rappl <mail@florian-rappl.de>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlorianRappl/ts-node-browser-hybrid-example.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FlorianRappl/ts-node-browser-hybrid-example/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^7.0.0",
     "browserify": "^13.3.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^3.0.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-typescript": "^3.1.4",
     "gulp-uglify": "^2.0.0",
