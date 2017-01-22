@@ -11,8 +11,12 @@ const browserify = require('browserify');
 const tsify = require('tsify');
 const tsProject = ts.createProject('tsconfig.json');
 
+const opts = {
+  standalone: 'app'
+};
+
 gulp.task('build-browser', function () {
-  return browserify()
+  return browserify(opts)
     .add('./lib/index.ts')
     .plugin(tsify)
     .bundle()
